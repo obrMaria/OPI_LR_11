@@ -5,40 +5,19 @@ import sys
 
 
 def get_input():
-    """""
-    Заправшивает ввод с клавиатуры и
-    возвращает в основную программу полученную строку.
-    """""
     get_str = input("Введите число: ")
     return get_str
 
 
 def test_input(b):
-    """""
-    Проверяет, можно ли переданное ей значение
-    преобразовать к числу. Если да - возвращает True.
-    """""
-    if type(b) == int or type(b) == float:
-        return True
-    elif b.isnumeric():
-        return True
-    else:
-        return False
+    return b.isdigit()
 
 
 def str_to_int(b):
-    """""
-    Преобразует переданное значение к
-    целочисленному типу.
-    """""
-    c = int(b)
-    return c
+    return int(b)
 
 
 def print_int(c):
-    """""
-    Выводит переданное значение на экран
-    """""
     print(c)
 
 
