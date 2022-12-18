@@ -1,101 +1,92 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# _*_ coding: utf-8 _*_
 
 import sys
 
 
-def get_student():
-    """
-    Запросить данные о студенте.
-    """
-    FIO = input('Ваши фамилия и инициалы: ')
-    group = input('введите номер своей группы: ')
-    grade = int(input('Ваша успеваемость: '))
+def get_student(staff):
+    # Запросить данные о студенте.
+    name = input("Фамилия и инициалы? ")
+    group = input("Номер группы? ")
+    grade = list(map(int, input("введите свои оценки: ").split()))
 
     # Создать словарь.
-    return {
-        'FIO': FIO,
+    student = {
+        'name': name,
         'group': group,
         'grade': grade,
     }
+    # Добавить словарь в список.
+    staff.append(student)
+
+    # Отсортировать список в случае необходимости.
+    if len(staff) > 1:
+        staff.sort(key=lambda item: item.get('group')[::-1])
 
 
 def display_student(staff):
-    """
-    Добавить словарь в список.
-    """
-    # Проверить, что список студентов не пуст.
-    if staff:
-        # Заголовок таблицы.
-        line = '+-{}-+-{}-+-{}-+-{}-+'.format(
-            '-' * 4,
-            '-' * 20,
-            '-' * 20,
-            '-' * 15
+    # Заголовок таблицы.
+    line = '+-{}-+-{}-+-{}-+-{}-+'.format(
+        '-' * 4,
+        '-' * 30,
+        '-' * 20,
+        '-' * 15
+    )
+    print(line)
+    print(
+        '| {:^4} | {:^30} | {:^20} | {:^15} |'.format(
+            "№",
+            "Ф.И.О.",
+            "Группа",
+            "Оценки"
         )
-        print(line)
+    )
+    print(line)
+    # Вывести данные о всех студентах.
+    for idx, student in enumerate(staff, 1):
         print(
-            '| {:^4} | {:^20} | {:^20} | {:^15} |'.format(
-                "No",
-                "ФИО.",
-                "номер группы",
-                "успеваемость"
+            '| {:>4} | {:<30} | {:<20} | {:>15} |'.format(
+                idx,
+                student.get('name', ''),
+                student.get('group', ''),
+                ','.join(map(str, student['grade']))
             )
         )
-        print(line)
-
-        # Вывести данные о всех студентов.
-        for idx, student in enumerate(staff, 1):
-            print(
-                '| {:>4} | {:<20} | {:<20} | {:>15} |'.format(
-                    idx,
-                    student.get('FIO', ''),
-                    student.get('group', 0),
-                    student.get('grade', 0)
-                )
-            )
-        print(line)
+    print(line)
 
 
 def find_students(staff):
-    """
-    Выбрать студентов с успеваемостью 4 и 5.
-    """
-    result = []
-    for hh in staff:
-        if (hh.get('grade') == 4) or (hh.get('grade') == 5):
-            result.append(hh)
-    # Возвратить список выбранных студентов
-    return result
+    count = 0
+    for student in staff:
+        grade = student.get('grade', '')
+        if sum(grade) / (len(grade)) >= 4.0:
+            print('группа №', student.get('group', ''), '\nстудент', student.get('name', ''))
+            print("среднее арифметическое оценок: ", sum(grade) / (len(grade)), '\n')
+            count += 1
+    if count == 0:
+        print("Студенты с баллом 4.0 и выше не найдены.")
 
 
 def main():
-    """""
-    Главная функция программы
-    """""
-    # Список студентов
     students = []
 
-    # Организовать бесконечный цикл запроса команд
+    # Организовать бесконечный цикл запроса команд.
     while True:
+        # Запросить команду из терминала.
         command = input(">>> ").lower()
 
+        # Выполнить действие в соответствие с командой.
         if command == 'exit':
             break
 
         elif command == 'add':
-            student = get_student()
-            students.append(student)
-
-            if len(students) > 1:
-                students.sort(key=lambda item: item.get('grade', ' '))
+            get_student(students)
 
         elif command == 'list':
             display_student(students)
 
         elif command == 'find':
-            found = find_students(students)
-            display_student(found)
+            find_students(students)
 
         elif command == 'help':
             print("Список команд:\n")
