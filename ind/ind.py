@@ -55,7 +55,8 @@ def display_student(staff):
             )
         print(line)
     else:
-        print("пусто")
+        print("список студентов пуст")
+
 
 def find_students(staff):
     result = []
@@ -65,12 +66,9 @@ def find_students(staff):
         if sum(grade) / (len(grade)) >= 4.0:
             result.append(student)
             count += 1
-    
-    if count == 0:
-        print("no")
+
     return result
 
-   
 
 def main():
     students = []
