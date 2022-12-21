@@ -25,47 +25,52 @@ def get_student(staff):
 
 
 def display_student(staff):
-    # Заголовок таблицы.
-    line = '+-{}-+-{}-+-{}-+-{}-+'.format(
-        '-' * 4,
-        '-' * 30,
-        '-' * 20,
-        '-' * 15
-    )
-    print(line)
-    print(
-        '| {:^4} | {:^30} | {:^20} | {:^15} |'.format(
-            "№",
-            "Ф.И.О.",
-            "Группа",
-            "Оценки"
+    if staff:
+        # Заголовок таблицы.
+        line = '+-{}-+-{}-+-{}-+-{}-+'.format(
+            '-' * 4,
+            '-' * 30,
+            '-' * 20,
+            '-' * 15
         )
-    )
-    print(line)
-    # Вывести данные о всех студентах.
-    for idx, student in enumerate(staff, 1):
+        print(line)
         print(
-            '| {:>4} | {:<30} | {:<20} | {:>15} |'.format(
-                idx,
-                student.get('name', ''),
-                student.get('group', ''),
-                ','.join(map(str, student['grade']))
+            '| {:^4} | {:^30} | {:^20} | {:^15} |'.format(
+                "№",
+                "Ф.И.О.",
+                "Группа",
+                "Оценки"
             )
         )
-    print(line)
-
+        print(line)
+        # Вывести данные о всех студентах.
+        for idx, student in enumerate(staff, 1):
+            print(
+                '| {:>4} | {:<30} | {:<20} | {:>15} |'.format(
+                    idx,
+                    student.get('name', ''),
+                    student.get('group', ''),
+                    ','.join(map(str, student['grade']))
+                )
+            )
+        print(line)
+    else:
+        print("пусто")
 
 def find_students(staff):
+    result = []
     count = 0
     for student in staff:
         grade = student.get('grade', '')
         if sum(grade) / (len(grade)) >= 4.0:
-            print('группа №', student.get('group', ''), '\nстудент', student.get('name', ''))
-            print("среднее арифметическое оценок: ", sum(grade) / (len(grade)), '\n')
+            result.append(student)
             count += 1
+    
     if count == 0:
-        print("Студенты с баллом 4.0 и выше не найдены.")
+        print("no")
+    return result
 
+   
 
 def main():
     students = []
@@ -86,7 +91,8 @@ def main():
             display_student(students)
 
         elif command == 'find':
-            find_students(students)
+            found = find_students(students)
+            display_student(found)
 
         elif command == 'help':
             print("Список команд:\n")
