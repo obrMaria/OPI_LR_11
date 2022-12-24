@@ -5,7 +5,9 @@ import sys
 
 
 def get_student(staff):
-    # Запросить данные о студенте.
+    """
+    Запросить данные о студенте.
+    """
     name = input("Фамилия и инициалы? ")
     group = input("Номер группы? ")
     grade = list(map(int, input("введите свои оценки: ").split()))
@@ -25,6 +27,9 @@ def get_student(staff):
 
 
 def display_student(staff):
+    """
+    Отобразить список студентов.
+    """
     if staff:
         # Заголовок таблицы.
         line = '+-{}-+-{}-+-{}-+-{}-+'.format(
@@ -59,6 +64,9 @@ def display_student(staff):
 
 
 def find_students(staff):
+    """
+    Выбрать студентов со ср ариф. успеваемости >4.
+    """
     result = []
     count = 0
     for student in staff:
@@ -71,6 +79,9 @@ def find_students(staff):
 
 
 def main():
+    """
+    Главная функция программы.
+    """
     students = []
 
     # Организовать бесконечный цикл запроса команд.
